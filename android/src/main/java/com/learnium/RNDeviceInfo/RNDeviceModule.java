@@ -338,11 +338,22 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
       return constants;
     }
 
-    constants.put("appVersion", preferences.getString("appVersion", ""));
+    try {
+      String packageName = this.reactContext.getPackageName();
+      PackageManager packageManager = this.reactContext.getPackageManager();
+      PackageInfo info = packageManager.getPackageInfo(packageName, 0);
+
+      // Recreate everytime
+      constants.put("appVersion", info.versionName);
+      constants.put("buildNumber", info.versionCode);
+    } catch (PackageManager.NameNotFoundException e) {
+      constants.put("appVersion", preferences.getString("appVersion", ""));
+      constants.put("buildNumber", preferences.getInt("buildNumber", 0));
+    }
+
     constants.put("appName", preferences.getString("appName", ""));
     constants.put("buildVersion", preferences.getString("buildVersion", ""));
 
-    constants.put("buildNumber", preferences.getInt("buildNumber", 0));
     constants.put("firstInstallTime", preferences.getLong("firstInstallTime", 0));
     constants.put("lastUpdateTime", preferences.getLong("lastUpdateTime", 0));
 
