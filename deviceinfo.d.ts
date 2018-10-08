@@ -26,6 +26,7 @@ declare const _default: {
   getFontScale: () => number;
   is24Hour: () => boolean;
   isPinOrFingerprintSet: (cb: (isPinOrFingerprintSet: boolean) => void) => void;
+  hasNotch: () => boolean;
   getFirstInstallTime: () => number;
   getLastUpdateTime: () => number;
   getSerialNumber: () => string;
@@ -38,7 +39,8 @@ declare const _default: {
   getMaxMemory: () => number;
   getTotalDiskCapacity: () => number;
   getFreeDiskStorage: () => number;
-  getBatteryLevel: () => Promise<number>
+  getBatteryLevel: () => Promise<number>;
+  isLandscape: () => boolean;    
 };
 
 export default _default;

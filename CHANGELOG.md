@@ -1,6 +1,13 @@
 ## Release Notes
 
-### next
+### 0.24.0
+ * Added `isLandscape()` (https://github.com/rebeccahughes/react-native-device-info/pull/504)
+
+### 0.23.0
+ * Add `hasNotch()` (https://github.com/rebeccahughes/react-native-device-info/pull/500)
+
+### 0.22.6
+ * Support new models (XR, XS, XS Max) and iPad 6th Gen (https://github.com/rebeccahughes/react-native-device-info/pull/499) 
 
 ### 0.22.5
  * Fix typescript declaration export (https://github.com/rebeccahughes/react-native-device-info/pull/478)
