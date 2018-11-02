@@ -47,7 +47,7 @@ rnpm link react-native-device-info
 ### Manual
 
 <details>
-    <summary>iOS (via Cocoa Pods)</summary>
+    <summary>iOS (via CocoaPods)</summary>
 
 Add the following line to your build targets in your `Podfile`
 
@@ -58,7 +58,7 @@ Then run `pod install`
 </details>
 
 <details>
-    <summary>iOS (without Cocoa Pods)</summary>
+    <summary>iOS (without CocoaPods)</summary>
 
 In XCode, in the project navigator:
 
@@ -102,8 +102,8 @@ Run your project (Cmd+R)
 ```diff
 dependencies {
     ...
-    compile "com.facebook.react:react-native:+"  // From node_modules
-+   compile project(':react-native-device-info')
+    implementation "com.facebook.react:react-native:+"  // From node_modules
++   implementation project(':react-native-device-info')
 }
 ```
 
@@ -230,6 +230,7 @@ import DeviceInfo from 'react-native-device-info';
 | [getUserAgent()](#getuseragent)                   | `string`            |  ✅  |   ✅    |   ❌    | 0.7.0  |
 | [getVersion()](#getversion)                       | `string`            |  ✅  |   ✅    |   ✅    | ?      |
 | [is24Hour()](#is24hour)                           | `boolean`           |  ✅  |   ✅    |   ✅    | 0.13.0 |
+| [isAirPlaneMode()](#isairplanemode)               | `Promise<boolean>`  |  ❌  |   ✅    |   ❌    | 0.25.0 |
 | [isEmulator()](#isemulator)                       | `boolean`           |  ✅  |   ✅    |   ✅    | ?      |
 | [isPinOrFingerprintSet()](#ispinorfingerprintset) | (callback)`boolean` |  ✅  |   ✅    |   ✅    | 0.10.1 |
 | [isTablet()](#istablet)                           | `boolean`           |  ✅  |   ✅    |   ✅    | ?      |
@@ -792,6 +793,23 @@ const is24Hour = DeviceInfo.is24Hour(); // true
 
 ---
 
+### isAirPlaneMode()
+
+Tells if the device is in AirPlaneMode.
+
+**Examples**
+
+```js
+DeviceInfo.isAirPlaneMode().then(airPlaneModeOn => {
+  // false
+});
+```
+
+**Notes**
+
+> * This only works if the remote debugger is disabled.
+
+---
 ### isEmulator()
 
 Tells if the application is running in an emulator.

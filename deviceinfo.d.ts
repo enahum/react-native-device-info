@@ -20,7 +20,7 @@ declare const _default: {
   getDeviceCountry: () => string;
   getTimezone: () => string;
   getInstanceID: () => string;
-  getInstallReferrer: () => string;
+  getInstallReferrer: () => string | null;
   isEmulator: () => boolean;
   isTablet: () => boolean;
   getFontScale: () => number;
@@ -41,6 +41,7 @@ declare const _default: {
   getFreeDiskStorage: () => number;
   getBatteryLevel: () => Promise<number>;
   isLandscape: () => boolean;    
+  isAirPlaneMode: () => Promise<boolean>;
 };
 
 export default _default;
