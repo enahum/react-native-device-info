@@ -158,6 +158,19 @@ include ':app'
   }
 ```
 
+NOTE: If you faced with this error: `Could not resolve all files for configuration ':react-native-device-info:debugCompileClasspath'.`, in `build.gradle` put `google()` in the first line (according to https://stackoverflow.com/a/50748249)
+
+* in `android/build.gradle`:
+
+```diff
+allprojects {
+    repositories {
++       google()
+        ...
+    }
+}
+```
+
 (Thanks to @chirag04 for writing the instructions)
 
 </details>
@@ -236,6 +249,7 @@ import DeviceInfo from 'react-native-device-info';
 | [isTablet()](#istablet)                           | `boolean`           |  ✅  |   ✅    |   ✅    | ?      |
 | [hasNotch()](#hasNotch)                           | `boolean`           |  ✅  |   ✅    |   ✅    | 0.23.0 |
 | [isLandscape()](#isLandscape)                     | `boolean`           |  ✅  |   ✅    |   ✅    | 0.24.0 |
+| [getDeviceType()](#getDeviceType)                 | `string`            |  ✅  |   ✅    |   ❌    | ?      |
 
 ---
 
@@ -775,7 +789,7 @@ Gets the application version.
 const version = DeviceInfo.getVersion();
 
 // iOS: "1.0"
-// Android: "1.0
+// Android: "1.0"
 // Windows: ?
 ```
 
@@ -874,6 +888,21 @@ Tells if the device has a notch.
 ```js
 const hasNotch = DeviceInfo.hasNotch(); // true
 ```
+
+### getDeviceType()
+
+Returns the device's type as a string, which will be one of:
+* `Handset`
+* `Tablet`
+* `Tv`
+* `Unknown`
+
+**Examples**
+
+```js
+const deviceType = DeviceInfo.getDeviceType(); // 'Handset'
+```
+
 
 ## Troubleshooting
 
