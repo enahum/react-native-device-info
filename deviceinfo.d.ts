@@ -27,7 +27,7 @@ declare const _default: {
   isTablet: () => boolean;
   getFontScale: () => number;
   is24Hour: () => boolean;
-  isPinOrFingerprintSet: (cb: (isPinOrFingerprintSet: boolean) => void) => void;
+  isPinOrFingerprintSet(): (cb: (isPinOrFingerprintSet: boolean) => void) => void;
   hasNotch: () => boolean;
   getFirstInstallTime: () => number;
   getLastUpdateTime: () => number;
@@ -42,9 +42,12 @@ declare const _default: {
   getTotalDiskCapacity: () => number;
   getFreeDiskStorage: () => number;
   getBatteryLevel: () => Promise<number>;
+  isBatteryCharging: () => Promise<boolean>;
   isLandscape: () => boolean;
   isAirPlaneMode: () => Promise<boolean>;
   getDeviceType: () => DeviceType;
+  isAutoDateAndTime: () => Promise<boolean>;
+  isAutoTimeZone: () => Promise<boolean>;
 };
 
 export default _default;

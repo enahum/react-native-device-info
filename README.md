@@ -244,12 +244,15 @@ import DeviceInfo from 'react-native-device-info';
 | [getVersion()](#getversion)                       | `string`            |  ✅  |   ✅    |   ✅    | ?      |
 | [is24Hour()](#is24hour)                           | `boolean`           |  ✅  |   ✅    |   ✅    | 0.13.0 |
 | [isAirPlaneMode()](#isairplanemode)               | `Promise<boolean>`  |  ❌  |   ✅    |   ❌    | 0.25.0 |
+| [isBatteryCharging()](#isbatterycharging)         | `Promise<boolean>`  |  ❌  |   ✅    |   ❌    | 0.27.0 |
 | [isEmulator()](#isemulator)                       | `boolean`           |  ✅  |   ✅    |   ✅    | ?      |
 | [isPinOrFingerprintSet()](#ispinorfingerprintset) | (callback)`boolean` |  ✅  |   ✅    |   ✅    | 0.10.1 |
 | [isTablet()](#istablet)                           | `boolean`           |  ✅  |   ✅    |   ✅    | ?      |
 | [hasNotch()](#hasNotch)                           | `boolean`           |  ✅  |   ✅    |   ✅    | 0.23.0 |
 | [isLandscape()](#isLandscape)                     | `boolean`           |  ✅  |   ✅    |   ✅    | 0.24.0 |
 | [getDeviceType()](#getDeviceType)                 | `string`            |  ✅  |   ✅    |   ❌    | ?      |
+| [isAutoDateAndTime()](#isAutoDateAndTime)         | `boolean`           |  ❌  |   ✅    |   ❌    | 0.29.0 |
+| [isAutoTimeZone()](#isAutoTimeZone)               | `boolean`           |  ❌  |   ✅    |   ❌    | 0.29.0 |
 
 ---
 
@@ -299,6 +302,15 @@ DeviceInfo.getBatteryLevel().then(batteryLevel => {
 
 **Notes**
 
+> To be able to get actual battery level enable battery monitoring mode for application.
+> Add this code:
+
+```objective-c
+[UIDevice currentDevice].batteryMonitoringEnabled = true;
+```
+
+> to AppDelegate.m application:didFinishLaunchingWithOptions:
+>
 > Returns -1 on the iOS Simulator
 
 ---
@@ -824,6 +836,21 @@ DeviceInfo.isAirPlaneMode().then(airPlaneModeOn => {
 > * This only works if the remote debugger is disabled.
 
 ---
+
+### isBatteryCharging()
+
+Tells if the battery is currently charging.
+
+**Examples**
+
+```js
+DeviceInfo.isBatteryCharging().then(isCharging => {
+  // true or false
+});
+```
+
+---
+
 ### isEmulator()
 
 Tells if the application is running in an emulator.
@@ -892,6 +919,7 @@ const hasNotch = DeviceInfo.hasNotch(); // true
 ### getDeviceType()
 
 Returns the device's type as a string, which will be one of:
+
 * `Handset`
 * `Tablet`
 * `Tv`
@@ -903,6 +931,29 @@ Returns the device's type as a string, which will be one of:
 const deviceType = DeviceInfo.getDeviceType(); // 'Handset'
 ```
 
+### isAutoDateAndTime()
+
+Tells if the automatic date & time setting is enabled on the phone.
+
+**Examples**
+
+```js
+DeviceInfo.isAutoDateAndTime().then(isAutoDateAndTime => {
+  // true or false
+});
+```
+
+### isAutoTimeZone()
+
+Tells if the automatic time zone setting is enabled on the phone.
+
+**Examples**
+
+```js
+DeviceInfo.isAutoTimeZone().then(isAutoTimeZone => {
+  // true or false
+});
+```
 
 ## Troubleshooting
 
@@ -963,7 +1014,7 @@ jest.mock('react-native-device-info', () => {
 
 ## Release Notes
 
-See the [CHANGELOG.md](https://github.com/rebeccahughes/react-native-device-info/blob/master/CHANGELOG.md).
+See the [CHANGELOG.md](https://github.com/react-native-community/react-native-device-info/blob/master/CHANGELOG.md).
 
 ## react-native-web
 

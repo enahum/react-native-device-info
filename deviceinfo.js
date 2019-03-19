@@ -83,6 +83,18 @@ const devicesWithNotch = [
     model: 'G7+ ThinQ',
   },
   {
+    brand: 'LG',
+    model: 'LM-Q910', //G7 One
+  },
+  {
+    brand: 'LG',
+    model: 'LM-G710', //G7 ThinQ
+  },
+  {
+    brand: 'LG',
+    model: 'LM-V405', //V40 ThinQ
+  },
+  {
     brand: 'Nokia',
     model: '6.1 Plus',
   },
@@ -165,6 +177,10 @@ const devicesWithNotch = [
   {
     brand: 'xiaomi',
     model: 'POCO F1',
+  },
+  {
+    brand: 'xiaomi',
+    model: 'POCOPHONE F1',
   },
   {
     brand: 'xiaomi',
@@ -287,6 +303,9 @@ export default {
   getBatteryLevel: function() {
     return RNDeviceInfo.getBatteryLevel();
   },
+  isBatteryCharging: function() {
+    return RNDeviceInfo.isBatteryCharging();
+  },
   isLandscape: function() {
     const { height, width } = Dimensions.get('window');
     return width >= height;
@@ -297,4 +316,10 @@ export default {
   getDeviceType: function() {
     return RNDeviceInfo.deviceType;
   },
+  isAutoDateAndTime: function () {
+    return RNDeviceInfo.isAutoDateAndTime();
+  },
+  isAutoTimeZone: function () {
+    return RNDeviceInfo.isAutoTimeZone();
+  }
 };
