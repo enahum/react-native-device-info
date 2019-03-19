@@ -15,6 +15,11 @@ public class RNDeviceReceiver extends BroadcastReceiver {
       SharedPreferences.Editor editor = sharedPref.edit();
       editor.putString("installReferrer", intent.getStringExtra("referrer"));
       editor.commit();
+    } else if (action.equals("android.intent.action.TIMEZONE_CHANGED")) {
+      SharedPreferences sharedPref = context.getSharedPreferences("DEVICE_INFO_PREFERENCES", Context.MODE_PRIVATE);
+      SharedPreferences.Editor editor = sharedPref.edit();
+      editor.putString("timezone", intent.getStringExtra("time-zone"));
+      editor.commit();
     }
   }
 }
