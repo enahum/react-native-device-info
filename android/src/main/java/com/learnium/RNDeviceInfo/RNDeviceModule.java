@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.FeatureInfo;
 import android.content.res.Configuration;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiInfo;
@@ -26,15 +27,18 @@ import android.text.format.Formatter;
 import android.app.ActivityManager;
 import android.util.DisplayMetrics;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.WritableArray;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -94,6 +98,20 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
       }
       return builder.toString();
     }
+  }
+
+  private ArrayList<String> getPreferredLocales() {
+    Configuration configuration = getReactApplicationContext().getResources().getConfiguration();
+    ArrayList<String> preferred = new ArrayList<>();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+      for (int i = 0; i < configuration.getLocales().size(); i++) {
+        preferred.add(configuration.getLocales().get(i).getLanguage());
+      }
+    } else {
+      preferred.add(configuration.locale.getLanguage());
+    }
+
+    return preferred;
   }
 
   private String getCurrentCountry() {
@@ -301,6 +319,32 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     p.resolve(isAutoTimeZone);
   }
 
+  @ReactMethod
+  public void hasSystemFeature(String feature, Promise p) {
+
+    if (feature == null || feature == "") {
+      p.resolve(false);
+      return;
+    }
+
+    boolean hasFeature = this.reactContext.getApplicationContext().getPackageManager().hasSystemFeature(feature);
+    p.resolve(hasFeature);
+  }
+
+  @ReactMethod
+  public void getSystemAvailableFeatures(Promise p) {
+    final FeatureInfo[] featureList = this.reactContext.getApplicationContext().getPackageManager().getSystemAvailableFeatures();
+
+    WritableArray promiseArray = Arguments.createArray();
+    for (FeatureInfo f : featureList) {
+      if (f.name != null) {
+        promiseArray.pushString(f.name);
+      }
+    }
+
+    p.resolve(promiseArray);
+  }
+
   public String getInstallReferrer() {
     SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("react-native-device-info", Context.MODE_PRIVATE);
     return sharedPref.getString("installReferrer", null);
@@ -368,36 +412,43 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("systemVersion", Build.VERSION.RELEASE);
     constants.put("model", Build.MODEL);
     constants.put("brand", Build.BRAND);
+    constants.put("buildId", Build.ID);
     constants.put("deviceId", Build.BOARD);
     constants.put("apiLevel", Build.VERSION.SDK_INT);
     constants.put("deviceLocale", this.getCurrentLanguage());
+    constants.put("preferredLocales", this.getPreferredLocales());
     constants.put("deviceCountry", this.getCurrentCountry());
     constants.put("uniqueId", Settings.Secure.getString(this.reactContext.getContentResolver(), Settings.Secure.ANDROID_ID));
     constants.put("systemManufacturer", Build.MANUFACTURER);
     constants.put("bundleId", packageName);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      try {
+    try {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
         constants.put("userAgent", WebSettings.getDefaultUserAgent(this.reactContext));
-      } catch (RuntimeException e) {
+      } else {
         constants.put("userAgent", System.getProperty("http.agent"));
       }
+    } catch (RuntimeException e) {
+      constants.put("userAgent", System.getProperty("http.agent"));
     }
     constants.put("timezone", TimeZone.getDefault().getID());
     constants.put("isEmulator", this.isEmulator());
     constants.put("isTablet", this.isTablet());
     constants.put("fontScale", this.fontScale());
     constants.put("is24Hour", this.is24Hour());
-    if (getCurrentActivity() != null &&
-        (getCurrentActivity().checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED ||
-            getCurrentActivity().checkCallingOrSelfPermission(Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED ||
-            getCurrentActivity().checkCallingOrSelfPermission("android.permission.READ_PHONE_NUMBERS") == PackageManager.PERMISSION_GRANTED)) {
-      TelephonyManager telMgr = (TelephonyManager) this.reactContext.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-      constants.put("phoneNumber", telMgr.getLine1Number());
-    }
     constants.put("carrier", this.getCarrier());
     constants.put("totalDiskCapacity", this.getTotalDiskCapacity());
     constants.put("freeDiskStorage", this.getFreeDiskStorage());
     constants.put("installReferrer", this.getInstallReferrer());
+
+    if (reactContext != null &&
+         (reactContext.checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED ||
+           (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && reactContext.checkCallingOrSelfPermission(Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED) ||
+           (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && reactContext.checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED))) {
+      TelephonyManager telMgr = (TelephonyManager) this.reactContext.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+      constants.put("phoneNumber", telMgr.getLine1Number());
+    } else {
+      constants.put("phoneNumber", null);
+    }
 
     Runtime rt = Runtime.getRuntime();
     constants.put("maxMemory", rt.maxMemory());
@@ -406,6 +457,11 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     actMgr.getMemoryInfo(memInfo);
     constants.put("totalMemory", memInfo.totalMem);
     constants.put("deviceType", deviceType.getValue());
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      constants.put("supportedABIs", Build.SUPPORTED_ABIS);
+    } else {
+      constants.put("supportedABIs", new String[]{ Build.CPU_ABI });
+    }
 
     this.saveConstants(constants, context);
 
@@ -453,6 +509,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("systemName", preferences.getString("systemName", ""));
     constants.put("model", preferences.getString("model", ""));
     constants.put("brand", preferences.getString("brand", ""));
+    constants.put("buildId", preferences.getString("buildId", ""));
     constants.put("deviceId", preferences.getString("deviceId", ""));
     constants.put("apiLevel", preferences.getString("apiLevel", ""));
     constants.put("deviceLocale", preferences.getString("deviceLocale", ""));
@@ -475,20 +532,6 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     return constants;
   }
 
-  /**
-   * volatile data
-   * - appVersion
-   * - buildNumber
-   * <p>
-   * - firstInstallTime
-   * - lastUpdateTime
-   * - apiLevel
-   * <p>
-   * - deviceLocale
-   * - deviceCountry
-   * - timezone
-   * - is24Hour
-   */
   private Map<String, Object> recreateVolatileConstants(SharedPreferences preferences) {
     Map<String, Object> constants = new HashMap<>();
     try {
@@ -525,32 +568,6 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     return constants;
   }
 
-  /**
-   * non-volatile data
-   * - appName
-   * - buildVersion
-   *
-   * - instanceId
-   * - serialNumber
-   * - deviceName
-   * - systemName
-   * - model
-   * - brand
-   * - deviceId
-   *
-   * - uniqueId
-   * - systemManufacturer
-   * - bundleId
-   * - userAgent
-   *
-   * - isEmulator
-   * - isTablet
-   *
-   * - phoneNumber
-   * - carrier
-   * - maxMemory
-   * - totalMemory
-   */
   private Map<String, Object> addNonVolatileConstants(SharedPreferences preferences) {
     Map<String, Object> constants = new HashMap<>();
 
@@ -563,6 +580,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("systemName", preferences.getString("systemName", ""));
     constants.put("model", preferences.getString("model", ""));
     constants.put("brand", preferences.getString("brand", ""));
+    constants.put("buildId", preferences.getString("buildId", ""));
     constants.put("deviceId", preferences.getString("deviceId", ""));
 
     constants.put("uniqueId", preferences.getString("uniqueId", ""));
@@ -577,6 +595,8 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("carrier", preferences.getString("carrier", ""));
     constants.put("maxMemory", preferences.getLong("maxMemory", 0));
     constants.put("totalMemory", preferences.getLong("totalMemory", 0));
+    constants.put("deviceType", preferences.getString("deviceType", ""));
+    constants.put("supportedABIs", preferences.getString("supportedABIs", ""));
 
     return constants;
   }
@@ -608,6 +628,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     editor.putString("systemName", constants.get("systemName").toString());
     editor.putString("model", constants.get("model").toString());
     editor.putString("brand", constants.get("brand").toString());
+    editor.putString("buildId", constants.get("buildId").toString());
     editor.putString("deviceId", constants.get("deviceId").toString());
     editor.putString("uniqueId", constants.get("uniqueId").toString());
     editor.putString("systemManufacturer", constants.get("systemManufacturer").toString());
@@ -624,7 +645,8 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     editor.putString("carrier", constants.get("carrier").toString());
     editor.putLong("maxMemory", (Long) constants.get("maxMemory"));
     editor.putLong("totalMemory", (Long) constants.get("totalMemory"));
-
+    editor.putString("deviceType", preferences.getString("deviceType", ""));
+    editor.putString("supportedABIs", preferences.getString("supportedABIs", ""));
     editor.putLong("cacheTime", SystemClock.elapsedRealtime());
 
     editor.commit();

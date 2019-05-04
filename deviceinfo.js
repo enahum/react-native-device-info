@@ -5,8 +5,25 @@ import { Platform, NativeModules, Dimensions } from 'react-native';
 
 var RNDeviceInfo = NativeModules.RNDeviceInfo;
 
-if (!RNDeviceInfo && Platform.OS === 'web') {
+if (Platform.OS === 'web' || Platform.OS === 'dom') {
   RNDeviceInfo = require('./web');
+}
+if (!RNDeviceInfo) {
+  // Produce an error if we don't have the native module
+  if (
+    Platform.OS === 'android' ||
+    Platform.OS === 'ios' ||
+    Platform.OS === 'web' ||
+    Platform.OS === 'dom'
+  ) {
+    throw new Error(`@react-native-community/react-native-device-info: NativeModule.RNDeviceInfo is null. To fix this issue try these steps:
+  • Run \`react-native link react-native-device-info\` in the project root.
+  • Rebuild and re-run the app.
+  • If you are using CocoaPods on iOS, run \`pod install\` in the \`ios\` directory and then rebuild and re-run the app. You may also need to re-open Xcode to get the new pods.
+  If none of these fix the issue, please open an issue on the Github repository: https://github.com/react-native-community/react-native-device-info`);
+  }
+
+  RNDeviceInfo = require('./default');
 }
 
 const devicesWithNotch = [
@@ -56,6 +73,10 @@ const devicesWithNotch = [
   },
   {
     brand: 'Huawei',
+    model: 'INE-LX1',
+  },
+  {
+    brand: 'Huawei',
     model: 'Honor 10',
   },
   {
@@ -99,6 +120,10 @@ const devicesWithNotch = [
     model: '6.1 Plus',
   },
   {
+    brand: 'Nokia',
+    model: '7.1',
+  },
+  {
     brand: 'OnePlus',
     model: '6',
   },
@@ -113,6 +138,10 @@ const devicesWithNotch = [
   {
     brand: 'OnePlus',
     model: 'OnePlus A6003',
+  },
+  {
+    brand: 'OnePlus',
+    model: 'ONEPLUS A6010',
   },
   {
     brand: 'OnePlus',
@@ -172,7 +201,7 @@ const devicesWithNotch = [
   },
   {
     brand: 'xiaomi',
-    model: 'MI8Lite',
+    model: 'MI 8 Lite',
   },
   {
     brand: 'xiaomi',
@@ -185,6 +214,10 @@ const devicesWithNotch = [
   {
     brand: 'xiaomi',
     model: 'Redmi 6 Pro',
+  },
+  {
+    brand: 'xiaomi',
+    model: 'Mi A2 Lite',
   },
 ];
 
@@ -222,6 +255,9 @@ export default {
   getSystemVersion: function() {
     return RNDeviceInfo.systemVersion;
   },
+  getBuildId: function() {
+    return RNDeviceInfo.buildId;
+  },
   getAPILevel: function() {
     return RNDeviceInfo.apiLevel;
   },
@@ -248,6 +284,9 @@ export default {
   },
   getDeviceLocale: function() {
     return RNDeviceInfo.deviceLocale;
+  },
+  getPreferredLocales: function() {
+    return RNDeviceInfo.preferredLocales;
   },
   getDeviceCountry: function() {
     return RNDeviceInfo.deviceCountry;
@@ -303,6 +342,9 @@ export default {
   getBatteryLevel: function() {
     return RNDeviceInfo.getBatteryLevel();
   },
+  getPowerState: function() {
+    return RNDeviceInfo.getPowerState();
+  },
   isBatteryCharging: function() {
     return RNDeviceInfo.isBatteryCharging();
   },
@@ -321,5 +363,14 @@ export default {
   },
   isAutoTimeZone: function () {
     return RNDeviceInfo.isAutoTimeZone();
+  },
+  supportedABIs: function() {
+    return RNDeviceInfo.supportedABIs;
+  },
+  hasSystemFeature: function(feature) {
+    return RNDeviceInfo.hasSystemFeature(feature);
+  },
+  getSystemAvailableFeatures: function() {
+    return RNDeviceInfo.getSystemAvailableFeatures();
   }
 };
