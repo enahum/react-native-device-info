@@ -2,6 +2,23 @@
 
 ### Next
 
+### 2.0.1
+* fix: `getFreeDiskStorage()` to use `StatFs` methods that return `long` instead of `int` (which are now deprecated)
+       (https://github.com/react-native-community/react-native-device-info/pull/672)
+
+### 2.0.0
+* breaking: no functional change from 1.8.0, but isLocationEnabled requires minCompileSdk 28
+
+### 1.8.0 (unpublished: unintended breaking change)
+* feat: Add `isLocationEnabled()`, `getAvailableLocationProviders()` methods (https://github.com/react-native-community/react-native-device-info/pull/664)
+
+### 1.7.0
+ * feat: Add `getCameraPresence()` method (https://github.com/react-native-community/react-native-device-info/pull/474)
+
+### 1.6.2
+ * fix: added v to tag name in podspec (https://github.com/react-native-community/react-native-device-info/pull/660)
+ * docs: Update README.md to have correct Podspec name (https://github.com/react-native-community/react-native-device-info/pull/656)
+
 ### 1.6.1
  * fix: fix building issue on tvOS / headers on iOS (https://github.com/react-native-community/react-native-device-info/pull/652)
  * chore: fix pointer types in iOS build (https://github.com/react-native-community/react-native-device-info/pull/649)

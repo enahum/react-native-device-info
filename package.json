@@ -1,6 +1,6 @@
 {
   "name": "react-native-device-info",
-  "version": "1.6.1",
+  "version": "2.0.1",
   "description": "Get device information using react-native",
   "main": "deviceinfo.js",
   "typings": "./deviceinfo.d.ts",
@@ -9,9 +9,18 @@
     "url": "https://github.com/react-native-community/react-native-device-info"
   },
   "scripts": {
-    "ts-check": "npx tsc deviceinfo.d.ts --noEmit",
+    "dev-sync": "cp -r deviceinfo* *podspec default windows web android ios example/node_modules/react-native-device-info/",
     "flow-check": "npx flow check-contents < deviceinfo.js.flow",
-    "shipit": "np --no-yarn"
+    "lint": "npx eslint ./ --ignore-pattern example --ignore-pattern node_modules --fix --quiet",
+    "shipit": "np --no-yarn",
+    "ts-check": "npx tsc deviceinfo.d.ts --noEmit",
+    "precommit": "lint-staged && npm run ts-check && npm run flow-check"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run lint",
+      "git add"
+    ]
   },
   "keywords": [
     "react-component",
@@ -43,9 +52,18 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "flow-bin": "^0.98.0",
-    "np": "^5.0.1",
-    "prettier": "^1.17.0",
+    "@react-native-community/eslint-config": "0.0.5",
+    "eslint": "^5.16.0",
+    "flow-bin": "^0.98.1",
+    "husky": "^2.3.0",
+    "lint-staged": "^8.1.6",
+    "np": "^5.0.2",
+    "prettier": "^1.17.1",
+    "react": "^16.8.3",
     "typescript": "^3.4.5"
-  }
+  },
+  "eslintConfig": {
+    "extends": "@react-native-community"
+  },
+  "dependencies": {}
 }

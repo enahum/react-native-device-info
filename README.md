@@ -1,6 +1,11 @@
 # react-native-device-info
 
 [![npm version](https://badge.fury.io/js/react-native-device-info.svg)](http://badge.fury.io/js/react-native-device-info)
+[![npm total downloads](https://img.shields.io/npm/dt/react-native-device-info.svg)](https://img.shields.io/npm/dt/react-native-device-info.svg)
+[![npm monthly downloads](https://img.shields.io/npm/dm/react-native-device-info.svg)](https://img.shields.io/npm/dm/react-native-device-info.svg)
+[![npm weekly downloads](https://img.shields.io/npm/dw/react-native-device-info.svg)](https://img.shields.io/npm/dw/react-native-device-info.svg)
+
+
 
 Device Information for [React Native](https://github.com/facebook/react-native).
 
@@ -37,12 +42,13 @@ yarn add react-native-device-info
 ```shell
 react-native link react-native-device-info
 ```
-
 (or using [`rnpm`](https://github.com/rnpm/rnpm) for versions of React Native < 0.27)
 
 ```shell
 rnpm link react-native-device-info
 ```
+*For iOS users using Pods*
+You still need to run `pod install` after running the above link command inside your `IOS` folder.
 
 ### Manual
 
@@ -207,58 +213,61 @@ import DeviceInfo from 'react-native-device-info';
 
 ## API
 
-| Method                                                      | Return Type         |  iOS | Android | Windows | Since  |
-| ----------------------------------------------------------- | ------------------- | :--: | :-----: | :-----: | ------ |
-| [getAPILevel()](#getapilevel)                               | `number`            |  ❌  |   ✅    |   ❌    | 0.12.0 |
-| [getApplicationName()](#getapplicationname)                 | `string`            |  ✅  |   ✅    |   ✅    | 0.14.0 |
-| [getBatteryLevel()](#getbatterylevel)                       | `Promise<number>`   |  ✅  |   ✅    |   ✅    | 0.18.0 |
-| [getBrand()](#getbrand)                                     | `string`            |  ✅  |   ✅    |   ✅    | 0.9.3  |
-| [getBuildNumber()](#getbuildnumber)                         | `string`            |  ✅  |   ✅    |   ✅    | ?      |
-| [getBundleId()](#getbundleid)                               | `string`            |  ✅  |   ✅    |   ✅    | ?      |
-| [getCarrier()](#getcarrier)                                 | `string`            |  ✅  |   ✅    |   ❌    | 0.13.0 |
-| [getDeviceCountry()](#getdevicecountry)                     | `string`            |  ✅  |   ✅    |   ✅    | 0.9.0  |
-| [getDeviceId()](#getdeviceid)                               | `string`            |  ✅  |   ✅    |   ✅    | 0.5.0  |
-| [getDeviceLocale()](#getdevicelocale)                       | `string`            |  ✅  |   ✅    |   ✅    | 0.7.0  |
-| [getPreferredLocales()](#getpreferredlocale)                | `Array<string>`     |  ✅  |   ✅    |   ❌    | ?      |
-| [getDeviceName()](#getdevicename)                           | `string`            |  ✅  |   ✅    |   ✅    | ?      |
-| [getFirstInstallTime()](#getfirstinstalltime)               | `number`            |  ❌  |   ✅    |   ✅    | 0.12.0 |
-| [getFontScale()](#getfontscale)                             | `number`            |  ✅  |   ✅    |   ❌    | 0.15.0 |
-| [getFreeDiskStorage()](#getfreediskstorage)                 | `number`            |  ✅  |   ✅    |   ❌    | 0.15.0 |
-| [getIPAddress()](#getipaddress)                             | `Promise<string>`   |  ✅  |   ✅    |   ✅    | 0.12.0 |
-| [getInstallReferrer()](#getinstallreferrer)                 | `string`            |  ❌  |   ✅    |   ❌    | 0.19.0 |
-| [getInstanceID()](#getinstanceid)                           | `string`            |  ❌  |   ✅    |   ❌    | ?      |
-| [getLastUpdateTime()](#getlastupdatetime)                   | `number`            |  ❌  |   ✅    |   ❌    | 0.12.0 |
-| [getMACAddress()](#getmacaddress)                           | `Promise<string>`   |  ✅  |   ✅    |   ❌    | 0.12.0 |
-| [getManufacturer()](#getmanufacturer)                       | `string`            |  ✅  |   ✅    |   ✅    | ?      |
-| [getMaxMemory()](#getmaxmemory)                             | `number`            |  ❌  |   ✅    |   ✅    | 0.14.0 |
-| [getModel()](#getmodel)                                     | `string`            |  ✅  |   ✅    |   ✅    | ?      |
-| [getPhoneNumber()](#getphonenumber)                         | `string`            |  ❌  |   ✅    |   ❌    | 0.12.0 |
-| [getPowerState()](#getpowerstate)                           | `Promise<object>`   |  ✅  |   ❌    |   ❌    |        |
-| [getReadableVersion()](#getreadableversion)                 | `string`            |  ✅  |   ✅    |   ✅    | ?      |
-| [getSerialNumber()](#getserialnumber)                       | `string`            |  ❌  |   ✅    |   ❌    | 0.12.0 |
-| [getSystemName()](#getsystemname)                           | `string`            |  ✅  |   ✅    |   ✅    | ?      |
-| [getSystemVersion()](#getsystemversion)                     | `string`            |  ✅  |   ✅    |   ✅    | ?      |
-| [getBuildId()](#getbuildid)                                 | `string`            |  ✅  |   ✅    |   ❌    | ?      |
-| [getTimezone()](#gettimezone)                               | `string`            |  ✅  |   ✅    |   ✅    | ?      |
-| [getTotalDiskCapacity()](#gettotaldiskcapacity)             | `number`            |  ✅  |   ✅    |   ❌    | 0.15.0 |
-| [getTotalMemory()](#gettotalmemory)                         | `number`            |  ✅  |   ✅    |   ❌    | 0.14.0 |
-| [getUniqueID()](#getuniqueid)                               | `string`            |  ✅  |   ✅    |   ✅    | ?      |
-| [getUserAgent()](#getuseragent)                             | `string`            |  ✅  |   ✅    |   ❌    | 0.7.0  |
-| [getVersion()](#getversion)                                 | `string`            |  ✅  |   ✅    |   ✅    | ?      |
-| [is24Hour()](#is24hour)                                     | `boolean`           |  ✅  |   ✅    |   ✅    | 0.13.0 |
-| [isAirPlaneMode()](#isairplanemode)                         | `Promise<boolean>`  |  ❌  |   ✅    |   ❌    | 0.25.0 |
-| [isBatteryCharging()](#isbatterycharging)                   | `Promise<boolean>`  |  ✅  |   ✅    |   ❌    | 0.27.0 |
-| [isEmulator()](#isemulator)                                 | `boolean`           |  ✅  |   ✅    |   ✅    | ?      |
-| [isPinOrFingerprintSet()](#ispinorfingerprintset)           | (callback)`boolean` |  ✅  |   ✅    |   ✅    | 0.10.1 |
-| [isTablet()](#istablet)                                     | `boolean`           |  ✅  |   ✅    |   ✅    | ?      |
-| [hasNotch()](#hasNotch)                                     | `boolean`           |  ✅  |   ✅    |   ✅    | 0.23.0 |
-| [isLandscape()](#isLandscape)                               | `boolean`           |  ✅  |   ✅    |   ✅    | 0.24.0 |
-| [getDeviceType()](#getDeviceType)                           | `string`            |  ✅  |   ✅    |   ❌    | ?      |
-| [isAutoDateAndTime()](#isAutoDateAndTime)                   | `boolean`           |  ❌  |   ✅    |   ❌    | 0.29.0 |
-| [isAutoTimeZone()](#isAutoTimeZone)                         | `boolean`           |  ❌  |   ✅    |   ❌    | 0.29.0 |
-| [supportedABIs()](#supportedABIs)                           | `string[]`          |  ✅  |   ✅    |   ❌    | 1.1.0  |
-| [hasSystemFeature()](#hassystemfeaturefeature)              | `Promise<boolean>`  |  ❌  |   ✅    |   ❌    | ?      |
-| [getSystemAvailableFeatures()](#getSystemAvailableFeatures) | `Promise<string[]>` |  ❌  |   ✅    |   ❌    | ?      |
+| Method                                                            | Return Type         |  iOS | Android | Windows | Since  |
+| ----------------------------------------------------------------- | ------------------- | :--: | :-----: | :-----: | ------ |
+| [getAPILevel()](#getapilevel)                                     | `number`            |  ❌  |   ✅    |   ❌    | 0.12.0 |
+| [getApplicationName()](#getapplicationname)                       | `string`            |  ✅  |   ✅    |   ✅    | 0.14.0 |
+| [getBatteryLevel()](#getbatterylevel)                             | `Promise<number>`   |  ✅  |   ✅    |   ✅    | 0.18.0 |
+| [getBrand()](#getbrand)                                           | `string`            |  ✅  |   ✅    |   ✅    | 0.9.3  |
+| [getBuildNumber()](#getbuildnumber)                               | `string`            |  ✅  |   ✅    |   ✅    | ?      |
+| [getBundleId()](#getbundleid)                                     | `string`            |  ✅  |   ✅    |   ✅    | ?      |
+| [getCameraPresence()](#getcamerapresence)                         | `Promise<boolean>`  |  ❌  |   ✅    |   ✅    | ?      |
+| [getCarrier()](#getcarrier)                                       | `string`            |  ✅  |   ✅    |   ❌    | 0.13.0 |
+| [getDeviceCountry()](#getdevicecountry)                           | `string`            |  ✅  |   ✅    |   ✅    | 0.9.0  |
+| [getDeviceId()](#getdeviceid)                                     | `string`            |  ✅  |   ✅    |   ✅    | 0.5.0  |
+| [getDeviceLocale()](#getdevicelocale)                             | `string`            |  ✅  |   ✅    |   ✅    | 0.7.0  |
+| [getPreferredLocales()](#getpreferredlocale)                      | `Array<string>`     |  ✅  |   ✅    |   ❌    | ?      |
+| [getDeviceName()](#getdevicename)                                 | `string`            |  ✅  |   ✅    |   ✅    | ?      |
+| [getFirstInstallTime()](#getfirstinstalltime)                     | `number`            |  ❌  |   ✅    |   ✅    | 0.12.0 |
+| [getFontScale()](#getfontscale)                                   | `number`            |  ✅  |   ✅    |   ❌    | 0.15.0 |
+| [getFreeDiskStorage()](#getfreediskstorage)                       | `number`            |  ✅  |   ✅    |   ❌    | 0.15.0 |
+| [getIPAddress()](#getipaddress)                                   | `Promise<string>`   |  ✅  |   ✅    |   ✅    | 0.12.0 |
+| [getInstallReferrer()](#getinstallreferrer)                       | `string`            |  ❌  |   ✅    |   ❌    | 0.19.0 |
+| [getInstanceID()](#getinstanceid)                                 | `string`            |  ❌  |   ✅    |   ❌    | ?      |
+| [getLastUpdateTime()](#getlastupdatetime)                         | `number`            |  ❌  |   ✅    |   ❌    | 0.12.0 |
+| [getMACAddress()](#getmacaddress)                                 | `Promise<string>`   |  ✅  |   ✅    |   ❌    | 0.12.0 |
+| [getManufacturer()](#getmanufacturer)                             | `string`            |  ✅  |   ✅    |   ✅    | ?      |
+| [getMaxMemory()](#getmaxmemory)                                   | `number`            |  ❌  |   ✅    |   ✅    | 0.14.0 |
+| [getModel()](#getmodel)                                           | `string`            |  ✅  |   ✅    |   ✅    | ?      |
+| [getPhoneNumber()](#getphonenumber)                               | `string`            |  ❌  |   ✅    |   ❌    | 0.12.0 |
+| [getPowerState()](#getpowerstate)                                 | `Promise<object>`   |  ✅  |   ❌    |   ❌    |        |
+| [getReadableVersion()](#getreadableversion)                       | `string`            |  ✅  |   ✅    |   ✅    | ?      |
+| [getSerialNumber()](#getserialnumber)                             | `string`            |  ❌  |   ✅    |   ❌    | 0.12.0 |
+| [getSystemName()](#getsystemname)                                 | `string`            |  ✅  |   ✅    |   ✅    | ?      |
+| [getSystemVersion()](#getsystemversion)                           | `string`            |  ✅  |   ✅    |   ✅    | ?      |
+| [getBuildId()](#getbuildid)                                       | `string`            |  ✅  |   ✅    |   ❌    | ?      |
+| [getTimezone()](#gettimezone)                                     | `string`            |  ✅  |   ✅    |   ✅    | ?      |
+| [getTotalDiskCapacity()](#gettotaldiskcapacity)                   | `number`            |  ✅  |   ✅    |   ❌    | 0.15.0 |
+| [getTotalMemory()](#gettotalmemory)                               | `number`            |  ✅  |   ✅    |   ❌    | 0.14.0 |
+| [getUniqueID()](#getuniqueid)                                     | `string`            |  ✅  |   ✅    |   ✅    | ?      |
+| [getUserAgent()](#getuseragent)                                   | `string`            |  ✅  |   ✅    |   ❌    | 0.7.0  |
+| [getVersion()](#getversion)                                       | `string`            |  ✅  |   ✅    |   ✅    | ?      |
+| [is24Hour()](#is24hour)                                           | `boolean`           |  ✅  |   ✅    |   ✅    | 0.13.0 |
+| [isAirPlaneMode()](#isairplanemode)                               | `Promise<boolean>`  |  ❌  |   ✅    |   ❌    | 0.25.0 |
+| [isBatteryCharging()](#isbatterycharging)                         | `Promise<boolean>`  |  ✅  |   ✅    |   ❌    | 0.27.0 |
+| [isEmulator()](#isemulator)                                       | `boolean`           |  ✅  |   ✅    |   ✅    | ?      |
+| [isPinOrFingerprintSet()](#ispinorfingerprintset)                 | (callback)`boolean` |  ✅  |   ✅    |   ✅    | 0.10.1 |
+| [isTablet()](#istablet)                                           | `boolean`           |  ✅  |   ✅    |   ✅    | ?      |
+| [hasNotch()](#hasNotch)                                           | `boolean`           |  ✅  |   ✅    |   ✅    | 0.23.0 |
+| [isLandscape()](#isLandscape)                                     | `boolean`           |  ✅  |   ✅    |   ✅    | 0.24.0 |
+| [getDeviceType()](#getDeviceType)                                 | `string`            |  ✅  |   ✅    |   ❌    | ?      |
+| [isAutoDateAndTime()](#isAutoDateAndTime)                         | `boolean`           |  ❌  |   ✅    |   ❌    | 0.29.0 |
+| [isAutoTimeZone()](#isAutoTimeZone)                               | `boolean`           |  ❌  |   ✅    |   ❌    | 0.29.0 |
+| [supportedABIs()](#supportedABIs)                                 | `string[]`          |  ✅  |   ✅    |   ❌    | 1.1.0  |
+| [hasSystemFeature()](#hassystemfeaturefeature)                    | `Promise<boolean>`  |  ❌  |   ✅    |   ❌    | ?      |
+| [getSystemAvailableFeatures()](#getSystemAvailableFeatures)       | `Promise<string[]>` |  ❌  |   ✅    |   ❌    | ?      |
+| [isLocationEnabled()](#isLocationEnabled)                         | `Promise<boolean>`  |  ✅  |   ✅    |   ❌    | ?      |
+| [getAvailableLocationProviders()](#getAvailableLocationProviders) | `Promise<Object>`   |  ✅  |   ✅    |   ❌    | ?      |
 
 ---
 
@@ -366,6 +375,29 @@ Gets the application bundle identifier.
 ```js
 const bundleId = DeviceInfo.getBundleId(); // "com.learnium.mobile"
 ```
+
+---
+
+### getCameraPresence()
+
+Tells if the device have any camera now. 
+
+**Examples**
+
+```js
+DeviceInfo.getCameraPresence()
+  .then(isCameraPresent => {
+    // true or false
+  })
+  .catch(cameraAccessException => {
+    // is thrown if a camera device could not be queried or opened by the CameraManager on Android
+  });
+```
+
+**Notes**
+
+> * Hot add/remove of camera is supported.
+> * Returns the status of the physical presence of the camera. If camera present but your app don't have permissions to use it, getCameraPresence will still return the true
 
 ---
 
@@ -1066,6 +1098,49 @@ DeviceInfo.getSystemAvailableFeatures().then(features => {
 }); 
 ```
 
+### isLocationEnabled()
+
+Tells if the device has location services turned off at the device-level (NOT related to app-specific permissions)
+
+**Examples**
+
+```js
+DeviceInfo.isLocationEnabled().then(enabled => {
+  // true or false
+});
+```
+
+### getAvailableLocationProviders()
+
+Returns an object of **platform-specfic** location providers/servcies, with `boolean` value whether or not they are currently available.
+
+> NOTE: This function requires access to the Location permission on Android
+
+#### Android Example
+
+```js
+DeviceInfo.getAvailableLocationProviders().then(providers => {
+  // {
+  //   gps: true
+  //   network: true
+  //   passive: true
+  // }
+});
+```
+
+#### iOS Example
+
+```js
+DeviceInfo.getAvailableLocationProviders().then(providers => {
+  // {
+  //   headingAvailable: false
+  //   isRangingAvailable: false
+  //   locationServicesEnabled: true
+  //   significantLocationChangeMonitoringAvailable: true
+  // }
+});
+```
+
 ## Events
 
 Currently iOS-only.
@@ -1186,7 +1261,7 @@ target 'yourTargetName' do
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
 
   # Third party deps podspec link - you may have multiple pods here, just an example
-  pod 'react-native-device-info', path: '../node_modules/react-native-device-info'
+  pod 'RNDeviceInfo', path: '../node_modules/react-native-device-info'
 
 end
 

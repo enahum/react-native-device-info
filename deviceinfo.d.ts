@@ -35,6 +35,7 @@ declare const _default: {
   getLastUpdateTime: () => number;
   getSerialNumber: () => string;
   getIPAddress: () => Promise<string>;
+  getCameraPresence: () => Promise<boolean>;
   getMACAddress: () => Promise<string>;
   getPhoneNumber: () => string;
   getAPILevel: () => number;
@@ -54,6 +55,8 @@ declare const _default: {
   supportedABIs: () => string[];
   hasSystemFeature: (feature: string) => Promise<boolean>;
   getSystemAvailableFeatures: () => Promise<string[]>;
+  isLocationEnabled: () => Promise<boolean>;
+  getAvailableLocationProviders: () => Promise<Object>;
 };
 
 export default _default;

@@ -234,6 +234,9 @@ export default {
   getIPAddress: function() {
     return RNDeviceInfo.getIpAddress();
   },
+  getCameraPresence: function() {
+    return RNDeviceInfo.getCameraPresence();
+  },
   getMACAddress: function() {
     return RNDeviceInfo.getMacAddress();
   },
@@ -310,7 +313,13 @@ export default {
     return RNDeviceInfo.isPinOrFingerprintSet;
   },
   hasNotch: function() {
-    return devicesWithNotch.findIndex(item => item.brand.toLowerCase() === RNDeviceInfo.brand.toLowerCase() && item.model.toLowerCase() === RNDeviceInfo.model.toLowerCase()) !== -1;
+    return (
+      devicesWithNotch.findIndex(
+        item =>
+          item.brand.toLowerCase() === RNDeviceInfo.brand.toLowerCase() &&
+          item.model.toLowerCase() === RNDeviceInfo.model.toLowerCase()
+      ) !== -1
+    );
   },
   getFirstInstallTime: function() {
     return RNDeviceInfo.firstInstallTime;
@@ -358,10 +367,10 @@ export default {
   getDeviceType: function() {
     return RNDeviceInfo.deviceType;
   },
-  isAutoDateAndTime: function () {
+  isAutoDateAndTime: function() {
     return RNDeviceInfo.isAutoDateAndTime();
   },
-  isAutoTimeZone: function () {
+  isAutoTimeZone: function() {
     return RNDeviceInfo.isAutoTimeZone();
   },
   supportedABIs: function() {
@@ -372,5 +381,11 @@ export default {
   },
   getSystemAvailableFeatures: function() {
     return RNDeviceInfo.getSystemAvailableFeatures();
-  }
+  },
+  isLocationEnabled: function() {
+    return RNDeviceInfo.isLocationEnabled();
+  },
+  getAvailableLocationProviders: function() {
+    return RNDeviceInfo.getAvailableLocationProviders();
+  },
 };

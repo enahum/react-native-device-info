@@ -43,6 +43,7 @@ export default class App extends Component<Props> {
       deviceJSON.systemVersion = DeviceInfo.getSystemVersion();
       deviceJSON.buildId = DeviceInfo.getBuildId();
       deviceJSON.bundleId = DeviceInfo.getBundleId();
+      deviceJSON.isCameraPresent = ios ? -1 : await DeviceInfo.getCameraPresence();
       deviceJSON.buildNumber = DeviceInfo.getBuildNumber();
       deviceJSON.version = DeviceInfo.getVersion();
       deviceJSON.readableVersion = DeviceInfo.getReadableVersion();
@@ -80,6 +81,8 @@ export default class App extends Component<Props> {
       deviceJSON.hasSystemFeature = ios ? false : await DeviceInfo.hasSystemFeature('amazon.hardware.fire_tv');
       deviceJSON.getSystemAvailableFeatures = ios ? [] : await DeviceInfo.getSystemAvailableFeatures();
       deviceJSON.powerState = ios ? await DeviceInfo.getPowerState() : '';
+      deviceJSON.isLocationEnabled = await DeviceInfo.isLocationEnabled();
+      deviceJSON.getAvailableLocationProviders = await DeviceInfo.getAvailableLocationProviders();
     } catch (e) {
       console.log('Trouble getting device info ', e);
     }
