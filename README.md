@@ -70,8 +70,8 @@ In XCode, in the project navigator:
 
 * Right click _Libraries_
 * Add Files to _[your project's name]_
-* Go to `node_modules/react-native-device-info`
-* Add the `.xcodeproj` file
+* Go to `node_modules/react-native-device-info/ios`
+* Add the file `RNDeviceInfo.xcodeproj`
 
 In XCode, in the project navigator, select your project.
 
@@ -261,8 +261,8 @@ import DeviceInfo from 'react-native-device-info';
 | [hasNotch()](#hasNotch)                                           | `boolean`           |  ✅  |   ✅    |   ✅    | 0.23.0 |
 | [isLandscape()](#isLandscape)                                     | `boolean`           |  ✅  |   ✅    |   ✅    | 0.24.0 |
 | [getDeviceType()](#getDeviceType)                                 | `string`            |  ✅  |   ✅    |   ❌    | ?      |
-| [isAutoDateAndTime()](#isAutoDateAndTime)                         | `boolean`           |  ❌  |   ✅    |   ❌    | 0.29.0 |
-| [isAutoTimeZone()](#isAutoTimeZone)                               | `boolean`           |  ❌  |   ✅    |   ❌    | 0.29.0 |
+| [isAutoDateAndTime()](#isAutoDateAndTime)                         | `Promise<boolean>`  |  ❌  |   ✅    |   ❌    | 0.29.0 |
+| [isAutoTimeZone()](#isAutoTimeZone)                               | `Promise<boolean>`  |  ❌  |   ✅    |   ❌    | 0.29.0 |
 | [supportedABIs()](#supportedABIs)                                 | `string[]`          |  ✅  |   ✅    |   ❌    | 1.1.0  |
 | [hasSystemFeature()](#hassystemfeaturefeature)                    | `Promise<boolean>`  |  ❌  |   ✅    |   ❌    | ?      |
 | [getSystemAvailableFeatures()](#getSystemAvailableFeatures)       | `Promise<string[]>` |  ❌  |   ✅    |   ❌    | ?      |
