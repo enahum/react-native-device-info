@@ -192,10 +192,10 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     double heightInches = metrics.heightPixels / (double) metrics.ydpi;
     double diagonalSizeInches = Math.sqrt(Math.pow(widthInches, 2) + Math.pow(heightInches, 2));
 
-    if (diagonalSizeInches >= 3.0 && diagonalSizeInches <= 6.9) {
+    if (diagonalSizeInches >= 3.0 && diagonalSizeInches <= 7.9) {
       // Devices in a sane range for phones are considered to be Handsets.
       return DeviceType.HANDSET;
-    } else if (diagonalSizeInches > 6.9 && diagonalSizeInches <= 18.0) {
+    } else if (diagonalSizeInches > 7.9 && diagonalSizeInches <= 18.0) {
       // Devices larger than handset and in a sane range for tablets are tablets.
       return DeviceType.TABLET;
     } else {
