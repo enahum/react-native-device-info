@@ -280,6 +280,12 @@ RCT_EXPORT_MODULE();
              };
 }
 
+RCT_EXPORT_METHOD(getTimezoneAsync:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    NSString *timezone = self.timezone;
+    resolve(timezone);
+}
+
 RCT_EXPORT_METHOD(getMacAddress:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
     NSString *address = @"02:00:00:00:00:00";

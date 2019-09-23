@@ -36,6 +36,7 @@ declare const _default: {
   getPreferredLocales: () => Array<string>;
   getDeviceCountry: () => string;
   getTimezone: () => string;
+  getTimezoneAsync: () => Promise<string>;
   getInstanceID: () => string;
   getInstallReferrer: () => string | null;
   isEmulator: () => boolean;

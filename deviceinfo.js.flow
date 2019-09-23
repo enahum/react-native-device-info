@@ -22,6 +22,7 @@ declare module.exports: {
   getPreferredLocales: () => Array<string>,
   getDeviceCountry: () => string,
   getTimezone: () => string,
+  getTimezoneAsync: () => Promise<string>,
   getInstanceID: () => string,
   getInstallReferrer: () => string,
   isEmulator: () => boolean,

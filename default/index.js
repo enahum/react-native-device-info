@@ -43,6 +43,7 @@ module.exports = {
   getBatteryLevel: () => Promise.resolve(0),
   isLandscape: false,
   deviceType: 'Unknown',
+  getTimezoneAsync: () => Promise.resolve(''),
   getPowerState: () => Promise.resolve({}),
   hasSystemFeature: () => Promise.resolve(false),
   getSystemAvailableFeatures: () => Promise.resolve([]),
