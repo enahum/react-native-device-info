@@ -31,7 +31,7 @@ declare const _default: {
   getVersion: () => string;
   getReadableVersion: () => string;
   getDeviceName: () => string;
-  getUserAgent: () => string;
+  getUserAgent: () => Promise<string>;
   getDeviceLocale: () => string;
   getPreferredLocales: () => Array<string>;
   getDeviceCountry: () => string;

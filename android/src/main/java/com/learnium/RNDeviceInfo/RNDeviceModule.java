@@ -427,6 +427,19 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     p.resolve(providersAvailability);
   }
 
+  @ReactMethod
+  public void getUserAgent(Promise p) {
+    try {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        p.resolve(WebSettings.getDefaultUserAgent(getReactApplicationContext()));
+      } else {
+        p.resolve(System.getProperty("http.agent"));
+      }
+    } catch (RuntimeException e) {
+      p.resolve(System.getProperty("http.agent"));
+    }
+  }
+
   public String getInstallReferrer() {
     SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("react-native-device-info", Context.MODE_PRIVATE);
     return sharedPref.getString("installReferrer", null);
@@ -501,15 +514,6 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("uniqueId", Settings.Secure.getString(this.reactContext.getContentResolver(), Settings.Secure.ANDROID_ID));
     constants.put("systemManufacturer", Build.MANUFACTURER);
     constants.put("bundleId", packageName);
-    try {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-        constants.put("userAgent", WebSettings.getDefaultUserAgent(this.reactContext));
-      } else {
-        constants.put("userAgent", System.getProperty("http.agent"));
-      }
-    } catch (RuntimeException e) {
-      constants.put("userAgent", System.getProperty("http.agent"));
-    }
     constants.put("timezone", TimeZone.getDefault().getID());
     constants.put("isEmulator", this.isEmulator());
     constants.put("isTablet", this.isTablet());
@@ -597,7 +601,6 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("uniqueId", preferences.getString("uniqueId", ""));
     constants.put("systemManufacturer", preferences.getString("systemManufacturer", ""));
     constants.put("bundleId", preferences.getString("bundleId", ""));
-    constants.put("userAgent", preferences.getString("userAgent", ""));
     constants.put("timezone", preferences.getString("timezone", ""));
 
     constants.put("isEmulator", preferences.getBoolean("isEmulator", false));
@@ -682,7 +685,6 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("uniqueId", preferences.getString("uniqueId", ""));
     constants.put("systemManufacturer", preferences.getString("systemManufacturer", ""));
     constants.put("bundleId", preferences.getString("bundleId", ""));
-    constants.put("userAgent", preferences.getString("userAgent", ""));
 
     constants.put("isEmulator", preferences.getBoolean("isEmulator", false));
     constants.put("isTablet", preferences.getBoolean("isTablet", false));
@@ -729,7 +731,6 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     editor.putString("uniqueId", constants.get("uniqueId").toString());
     editor.putString("systemManufacturer", constants.get("systemManufacturer").toString());
     editor.putString("bundleId", constants.get("bundleId").toString());
-    editor.putString("userAgent", constants.get("userAgent").toString());
 
     editor.putBoolean("isEmulator", (Boolean) constants.get("isEmulator"));
     editor.putBoolean("isTablet", (Boolean) constants.get("isTablet"));
