@@ -401,8 +401,8 @@ export default {
   getDeviceName: function() {
     return RNDeviceInfo.deviceName;
   },
-  getUserAgent: function() {
-    return RNDeviceInfo.userAgent;
+  getUserAgent: async function() {
+    return RNDeviceInfo.getUserAgent();
   },
   getDeviceLocale: function() {
     return RNDeviceInfo.deviceLocale;
