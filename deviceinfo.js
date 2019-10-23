@@ -416,6 +416,9 @@ export default {
   getTimezone: function() {
     return RNDeviceInfo.timezone;
   },
+  getTimezoneAsync: function() {	
+    return RNDeviceInfo.getTimezoneAsync();	
+  },
   getFontScale: function() {
     return RNDeviceInfo.fontScale;
   },
